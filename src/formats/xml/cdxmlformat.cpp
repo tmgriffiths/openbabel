@@ -280,7 +280,15 @@ bool ChemDrawXMLFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 {
   static const xmlChar C_MOLECULE[]         = "fragment";
   static const xmlChar C_CDXML[]            = "CDXML";
-  static const xmlChar C_BONDLENGTH[]       = "BondLength";
+  static const xmlChar C_BONDLENGTH[]       = "\n BondLength";
+  static const xmlChar C_BONDSPACING[]      = "\n BondSpacing";
+  static const xmlChar C_LINEWIDTH[]        = "\n LineWidth";
+  static const xmlChar C_BOLDWIDTH[]        = "\n BoldWidth";
+  static const xmlChar C_HASHSPACING[]      = "\n HashSpacing";
+  static const xmlChar C_LABELFONT[]        = "\n LabelFont";
+  static const xmlChar C_LABELSIZE[]        = "\n LabelSize";
+  static const xmlChar C_LABELJUST[]        = "\n LabelJustification";
+  static const xmlChar C_MARGINWIDTH[]      = "\n MarginWidth";
   static const xmlChar C_PAGE[]             = "page";
   static const xmlChar C_ATOM[]             = "n";
   static const xmlChar C_BOND[]             = "b";
@@ -311,7 +319,15 @@ bool ChemDrawXMLFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
     xmlTextWriterStartDocument(writer(), NULL, NULL, NULL);
     xmlTextWriterWriteDTD(writer(), BAD_CAST "CDXML", NULL, BAD_CAST "http://www.camsoft.com/xml/cdxml.dtd", NULL);
     xmlTextWriterStartElement(writer(), C_CDXML);
-    xmlTextWriterWriteFormatAttribute(writer(), C_BONDLENGTH , "30");
+    xmlTextWriterWriteFormatAttribute(writer(), C_BONDLENGTH , "12");
+    xmlTextWriterWriteFormatAttribute(writer(), C_BONDSPACING, "20");
+    xmlTextWriterWriteFormatAttribute(writer(), C_LINEWIDTH, "0.60");
+    xmlTextWriterWriteFormatAttribute(writer(), C_BOLDWIDTH, "2.0");
+    xmlTextWriterWriteFormatAttribute(writer(), C_HASHSPACING, "1.50");
+    xmlTextWriterWriteFormatAttribute(writer(), C_LABELFONT, "2139");
+    xmlTextWriterWriteFormatAttribute(writer(), C_LABELSIZE, "8");
+    xmlTextWriterWriteFormatAttribute(writer(), C_LABELJUST, "Auto");
+    xmlTextWriterWriteFormatAttribute(writer(), C_MARGINWIDTH, "1.60");
     xmlTextWriterStartElement(writer(), C_PAGE); // put everything on one page
     // now guess the average bond size for the first molecule and scale to 30.
     _scale = 0.;
@@ -323,7 +339,7 @@ bool ChemDrawXMLFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 	}
     else
       _scale = 1.; // FIXME: what happens if the molecule has no bond?
-    _scale = 30. / _scale;
+    _scale = 12. / _scale;
     _offset = 0;
   }
 
